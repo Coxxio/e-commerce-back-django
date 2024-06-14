@@ -17,6 +17,7 @@ gunicorn = "^22.0.0"
 whitenoise = "^6.6.0"
 psycopg2-binary = "^2.9.9"
 dj-database-url = "^2.2.0"
+uuid = "^1.30"
 
 
 [build-system]

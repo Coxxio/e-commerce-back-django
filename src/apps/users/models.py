@@ -24,7 +24,7 @@ class UserModel(AbstractBaseUser, BaseModel):
     REQUIRED_FIELDS = ['role']
 
     def __str__(self) -> str:
-        return f'{self.person.name}'
+        return f'{self.person.fullName}'
 
     def has_perm(self,perm,obj=None):
         return True

@@ -9,7 +9,7 @@ from .....common.permissions.roles import IsAuthAndRoles
 from ...enums.UserRole import UserEnum
 
 from src.apps.users.api.serializers.UserSerializer import UserSerializer, PersonSerializer
-from src.apps.users.models import UserModel
+from src.apps.users.models import UserModel, PersonModel
 
 
 class UserList(generics.ListAPIView):
@@ -38,7 +38,7 @@ class UserCreate(generics.CreateAPIView):
                 'msg': 'Hay errores en el registro',
                 'errors': person_serializzer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
-        userData['person'] =  person_serializzer.data['id']
+        userData['person'] = person_serializzer.data['id']
         user_serializer = self.serializer_class(data=userData)
         if user_serializer.is_valid():
             user_serializer.save()
@@ -59,9 +59,11 @@ class UserCreate(generics.CreateAPIView):
 
 
 class UserUpdate(generics.UpdateAPIView):
+    @transaction.atomic
     def patch(self, request):
+        sid = transaction.savepoint()
         id = request.user.id
-        user = self.get_queryset().filter(id=id).first()
+        user = UserModel.objects.filter(id=id).first()
         if 'email' in request.data:
             emailExists = self.get_queryset().filter(
                 email=request.data['email']
@@ -74,16 +76,35 @@ class UserUpdate(generics.UpdateAPIView):
                     },
                     status.HTTP_409_CONFLICT)
         if user:
-            user_serializer = UserSerializer(user, request.data, partial=True)
+            person = PersonModel.objects.filter(id=user.person.id).first()
+            personData = request.data['person']
+            person_serializer = PersonSerializer(person, personData, partial=True)
+            userData = request.data
+            user_serializer = UserSerializer(user, userData, partial=True)
+            if person_serializer.is_valid():
+                    person_serializer.save()
+            userData['person'] = user.person.id
             if user_serializer.is_valid():
-                user_serializer.save()
+                    user_serializer.save()
+                    transaction.savepoint_commit(sid)
+                    return Response(
+                        {
+                            'msg': "User updated",
+                            'data': user_serializer.data,
+                            'statusCode': 202
+                        },
+                        status.HTTP_202_ACCEPTED)
+            else:
+                transaction.savepoint_rollback(sid)
                 return Response(
                     {
-                        'msg': "User updated",
-                        'data': user_serializer.data,
-                        'statusCode': 202
+                        'msg': "Error",
+                        'data': user_serializer.errors,
+                        'statucCode': 400
                     },
-                    status.HTTP_202_ACCEPTED)
+                    status.HTTP_400_BAD_REQUEST
+                )
+
         return Response(
             {
                 'msg': 'User not found',

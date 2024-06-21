@@ -1,19 +1,18 @@
 from django.urls import reverse
+
 from rest_framework.test import APITestCase
 from rest_framework import status
 
+from .routes.routes import routes
 
 class TestSetup(APITestCase):
     fixtures = ['tests/fixtures/UserAdmin.json']
     
     def setUp(self):
         # URLS User Module
-        self.login_url = 'login'
-        self.url_user_list = 'user_list_create_update'
-        self.url_admin_create = 'user_admin_create'
-        self.url_retrieve_destroy = 'user_retrieve_destroy'
-        self.url_update_pass = 'user_update_password'
-        self.url_destroy_self = 'user_delete_self'
+        self.routes = routes
+        self.category_id_test = 'f4fc27db-14e5-493b-8460-8d8a29f37ae7'
+        self.category_id_test_2 = 'de0e6f32-bc71-4402-a595-516e7bd4db0c'
 
         # Data
         self.data_super_admin = {
@@ -51,7 +50,7 @@ class TestSetup(APITestCase):
         }
 
 
-        url = reverse(self.login_url)
+        url = reverse(self.routes['login_url'])
         response = self.client.post(
             url,
             {
@@ -71,8 +70,7 @@ class TestSetup(APITestCase):
 
 class TestSetupClient(TestSetup):
     def setUp(self):
-        self.login_url = "login"
-        self.url_destroy_self = 'user_delete_self'
+        self.routes = routes
         self.data_client = {
             "email": "ecommerce@client.com",
             "password": "12345678Admin",
@@ -85,7 +83,7 @@ class TestSetupClient(TestSetup):
             }
         }
         
-        url = reverse(self.login_url)
+        url = reverse(self.routes['login_url'])
         response = self.client.post(
             url,
             {

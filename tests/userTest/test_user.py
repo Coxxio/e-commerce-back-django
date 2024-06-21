@@ -73,7 +73,7 @@ class UsersAPITestCase(TestSetup):
         }
 
     def test_00_get_all_users(self):
-        url = reverse(self.url_user_list)
+        url = reverse(self.routes['url_user_list'])
         response = self.client.get(url, format="json")
         # Tests
         self.assertEqual(
@@ -83,7 +83,7 @@ class UsersAPITestCase(TestSetup):
         )
 
     def test_01_get_one_user(self):
-        url = reverse(self.url_retrieve_destroy, kwargs={
+        url = reverse(self.routes['url_retrieve_destroy'], kwargs={
                       'pk': "85ffffb7-c173-41b9-9549-51637a9ca849"})
         response = self.client.get(url)
 
@@ -94,7 +94,7 @@ class UsersAPITestCase(TestSetup):
         )
 
     def test_02_post_success_client(self):
-        url = reverse(self.url_user_list)
+        url = reverse(self.routes['url_user_list'])
         response = self.client.post(
             url,
             self.data_success_client_JSON(),
@@ -114,7 +114,7 @@ class UsersAPITestCase(TestSetup):
         )
 
     def test_03_post_success_admin(self):
-        url = reverse(self.url_admin_create)
+        url = reverse(self.routes['url_admin_create'])
         response = self.client.post(
             url,
             self.data_success_admin_JSON(),
@@ -133,7 +133,7 @@ class UsersAPITestCase(TestSetup):
         )
 
     def test_04_post_fail(self):
-        url = reverse(self.url_user_list)
+        url = reverse(self.routes['url_user_list'])
         response = self.client.post(
             url,
             self.data_invalid_email_JSON(),
@@ -151,7 +151,7 @@ class UsersAPITestCase(TestSetup):
         )
 
     def test_05_post_email_repeat(self):
-        url = reverse(self.url_user_list)
+        url = reverse(self.routes['url_user_list'])
         response = self.client.post(
             url,
             self.data_repeat_email_JSON(),
@@ -170,7 +170,7 @@ class UsersAPITestCase(TestSetup):
         )
 
     def test_06_update_user(self):
-        url = reverse(self.url_user_list)
+        url = reverse(self.routes['url_user_list'])
         response = self.client.patch(
             url,
             self.data_success_update_JSON(),
@@ -193,7 +193,7 @@ class UsersAPITestCase(TestSetup):
         )
 
     def test_07_update_repeat_email_user(self):
-        url = reverse(self.url_user_list)
+        url = reverse(self.routes['url_user_list'])
         response = self.client.patch(
             url,
             self.data_repeat_email_JSON(),
@@ -212,7 +212,7 @@ class UsersAPITestCase(TestSetup):
         )
 
     def test_08_update_password(self):
-        url = reverse(self.url_update_pass)
+        url = reverse(self.routes['url_update_pass'])
         response = self.client.patch(
             url,
             self.data_password(),
@@ -231,7 +231,7 @@ class UsersAPITestCase(TestSetup):
         )
 
     def test_09_delete_user(self):
-        url = reverse(self.url_retrieve_destroy, kwargs={
+        url = reverse(self.routes['url_retrieve_destroy'], kwargs={
                       'pk': "f4fc27db-14e5-493b-8460-8d8a29f37ae7"})
         response = self.client.delete(url)
 

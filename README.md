@@ -15,11 +15,11 @@ curl -sSL https://install.python-poetry.org | python3 -
 ### Clone the repository 
 Clone with SSH
 ```bash
-git clone git@gitlab.com:Coxxio/ecommerce-back-django.git
+git clone git@github.com:Coxxio/e-commerce-back-django.git
 ```
 Or Clone with HTTPS
 ```bash
-https://gitlab.com/Coxxio/ecommerce-back-django.git
+git clone https://github.com/Coxxio/e-commerce-back-django.git
 ```
 
 ### Install dependencies
@@ -31,7 +31,7 @@ poetry install
 ```
 
 ### Create the database
-- Instalar MongoDB
+- Instalar Postgres
 - Crear su usuario
 
 ### Configure the .env file
@@ -44,7 +44,7 @@ DB_TEST=
 DB_USER=
 DB_PASSWORD=
 DB_HOST=localhost
-DB_PORT=27017
+DB_PORT=5432
 
 JWT=5
 JWT_REFRESH=30

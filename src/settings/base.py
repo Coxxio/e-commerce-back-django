@@ -41,7 +41,7 @@ BASE_APPS = [
 ]
 
 LOCAL_APPS = [
-    # 'src.apps.users.apps.UsersConfig',
+    'src.apps.users.apps.UsersConfig',
     # 'src.apps.category.apps.CategoryConfig',
     # 'src.apps.files.apps.FilesConfig',
     # 'src.apps.products.apps.ProductsConfig',
@@ -60,12 +60,9 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=int(env('JWT_REFRESH'))),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
-    'USER_ID_FIELD': '_id',
-    'USER_ID_CLAIM': '_id'
 }
 
 REST_FRAMEWORK = {
-    'USER_ID_FIELD': '_id',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'src.common.auth.customAuth.CustomAuth',
     ),
@@ -137,9 +134,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-# AUTH_USER_MODEL = 'users.UserModel'
+AUTH_USER_MODEL = 'users.UserModel'
 
-# AUTHENTICATION_BACKENDS = ['src.common.auth.customBackend.EmailBackend']
+AUTHENTICATION_BACKENDS = ['src.common.auth.customBackend.EmailBackend']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

@@ -1,0 +1,40 @@
+[
+    {
+        "model": "users.personmodel",
+        "pk": "6d2de2b0-b1a1-4e17-b96b-31730b68c938",
+        "fields":{
+            "fullName": "ecommerce",
+            "phoneNumber": "",
+            "codePostal": "6101",
+            "country": "Ve",
+            "createdAt": "2024-03-08T15:37:33.427Z",
+            "updatedAt": "2024-03-08T15:37:33.427Z"
+        }
+    },
+    {
+        "model": "users.usermodel",
+        "pk": "6d2de2b0-b1a1-4e17-b96b-31730b68c938",
+        "fields": {
+            "password": "pbkdf2_sha256$390000$Efcslpw3q6ng2ebSf6yHQ3$qyula4S+M4UHf0uXrV2d6H0W4GQY/Rr8RdodZnFGzWA=",
+            "last_login": null,
+            "email": "ecommerce@superadmin.com",
+            "role": "SUPER_ADMIN",
+            "createdAt": "2024-03-08T15:36:34.731Z",
+            "updatedAt": "2024-03-08T15:36:34.731Z",
+            "person": "6d2de2b0-b1a1-4e17-b96b-31730b68c938"
+        }
+    },
+    {
+        "model": "users.usermodel",
+        "pk": "85ffffb7-c173-41b9-9549-51637a9ca849",
+        "fields": {
+            "password": "pbkdf2_sha256$390000$0RbWJ2ByJtEmMgYnj9zsOM$rXtsEYGw6pgkauG9qhO+zoRsDr/xk+pMEzs/pRC9ZtI=",
+            "last_login": null,
+            "email": "ecommerce@admin.com",
+            "role": "ADMIN",
+            "createdAt": "2024-03-08T15:37:33.427Z",
+            "updatedAt": "2024-03-08T15:37:33.427Z",
+            "person": "6d2de2b0-b1a1-4e17-b96b-31730b68c938"
+        }
+    }
+]

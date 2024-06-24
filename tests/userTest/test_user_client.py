@@ -8,7 +8,7 @@ from ..test_setup import TestSetupClient
 class UsersClientAPITestCase(TestSetupClient):
 
     def test_00_delete_user_self(self):
-        url = reverse(self.url_destroy_self)
+        url = reverse(self.routes['url_destroy_self'])
         response = self.client.delete(url)
 
         # Tests

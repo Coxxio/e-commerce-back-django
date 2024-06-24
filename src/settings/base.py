@@ -42,8 +42,7 @@ BASE_APPS = [
 
 LOCAL_APPS = [
     'src.apps.users.apps.UsersConfig',
-    # 'src.apps.category.apps.CategoryConfig',
-    # 'src.apps.files.apps.FilesConfig',
+    'src.apps.categories.apps.CategoriesConfig',
     # 'src.apps.products.apps.ProductsConfig',
 ]
 

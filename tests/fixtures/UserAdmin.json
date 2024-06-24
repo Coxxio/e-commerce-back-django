@@ -49,5 +49,23 @@
             "updatedAt": "2024-03-08T15:37:33.427Z",
             "person": "6d2de2b0-b1a1-4e17-b96b-31730b68c938"
         }
+    },
+    {
+        "model": "categories.categorymodel",
+        "pk": "f4fc27db-14e5-493b-8460-8d8a29f37ae7",
+        "fields": {
+            "name": "Ropa de dama",
+            "createdAt": "2024-03-08T15:37:33.427Z",
+            "updatedAt": "2024-03-08T15:37:33.427Z"
+        }
+    },
+    {
+        "model": "categories.categorymodel",
+        "pk": "de0e6f32-bc71-4402-a595-516e7bd4db0c",
+        "fields": {
+            "name": "Ropa de caballero",
+            "createdAt": "2024-03-08T15:37:33.427Z",
+            "updatedAt": "2024-03-08T15:37:33.427Z"
+        }
     }
 ]

@@ -43,7 +43,7 @@ BASE_APPS = [
 LOCAL_APPS = [
     'src.apps.users.apps.UsersConfig',
     'src.apps.categories.apps.CategoriesConfig',
-    # 'src.apps.products.apps.ProductsConfig',
+    'src.apps.products.apps.ProductsConfig',
 ]
 
 THIRD_APPS = [

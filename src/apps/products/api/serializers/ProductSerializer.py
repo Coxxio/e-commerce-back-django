@@ -16,12 +16,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         try:
-            # print(ImageModel.objects.values().filter(product=instance.id))
             imagesModel = ImageModel.objects.values().filter(product=instance.id)
             images = ImageSerializer(imagesModel, many=True).data
         except ImageModel.DoesNotExist:
             images = {}
-        # images = 
         return {
             'id': str(instance.id),
             'name': instance.name,

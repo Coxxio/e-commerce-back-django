@@ -6,15 +6,17 @@ from rest_framework.permissions import AllowAny
 
 from src.apps.users.enums.UserRole import UserEnum
 from src.common.permissions.roles import IsAuthAndRoles
+from .....common.pagination.Pagination import CustomPagination
 
 from ..serializers.ProductSerializer import ProductSerializer
 from ..serializers.ImageSerializer import ImageSerializer
-from ...models import ProductModel, ImageModel
+from ...models import ProductModel
 
 
 class ProductListCreate(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
     queryset = ProductModel.objects.all()
+    pagination_class = CustomPagination
 
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -23,12 +25,18 @@ class ProductListCreate(generics.ListCreateAPIView):
             return [IsAuthAndRoles([UserEnum.ADMIN, UserEnum.SUPER_ADMIN])]
 
     def get(self, req):
-        products = self.get_queryset()
-        serializer = ProductSerializer(products, many=True)
+        queryset = self.get_queryset()
+        if req.query_params.get('page') is not None:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                data = self.get_paginated_response(serializer.data)
+        else:
+            data = ProductSerializer(queryset, many=True)
         return Response(
             {
                 'msg': "Ok",
-                'data': serializer.data,
+                'data': data.data,
                 'statusCode': 200
             },
             status.HTTP_200_OK

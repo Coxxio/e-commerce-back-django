@@ -49,8 +49,23 @@ class ProductListCreate(generics.ListCreateAPIView):
         sid = transaction.savepoint()
         data = request.data.copy()
         data['name'] = str.capitalize(data['name'])
+        archivo = request.FILES.get('file1', None)
         Product_serializer = ProductSerializer(data=data)
         if Product_serializer.is_valid():
+            print(request.FILES.items)
+            if archivo is None:
+                return Response(
+                    {
+                        'msg': "Error",
+                        "statusCode": 400,
+                        'errors': {
+                            "files": [
+                                "product must have at least 1 image"
+                            ]
+                        }
+                    },
+                    status.HTTP_400_BAD_REQUEST
+                )
             Product_serializer.save()
             for file_name, file_data in request.FILES.items():
                 image = {}
@@ -81,9 +96,9 @@ class ProductListCreate(generics.ListCreateAPIView):
             )
         # except:
         transaction.savepoint_rollback(sid)
-            # return Response(
-            #     {
-            #         'status': 400,
-            #         'msg': 'Error creating product',
-            #     },
-            #     status=status.HTTP_400_BAD_REQUEST)
+        # return Response(
+        #     {
+        #         'status': 400,
+        #         'msg': 'Error creating product',
+        #     },
+        #     status=status.HTTP_400_BAD_REQUEST)

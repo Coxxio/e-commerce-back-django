@@ -7,4 +7,5 @@ routes = {
     'url_destroy_self': 'user_delete_self',
     "url_category_list_create": 'category_list_create',
     "url_category_retrieve_update": 'category_retrieve_update_destroy',
+    "url_list_products": 'products_list_create'
 }

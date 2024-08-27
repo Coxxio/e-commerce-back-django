@@ -25,8 +25,17 @@ class ProductListCreate(generics.ListCreateAPIView):
             return [IsAuthAndRoles([UserEnum.ADMIN, UserEnum.SUPER_ADMIN])]
 
     def get(self, req):
-        queryset = self.get_queryset()
+        #Obteniendo filtros
+        search = req.query_params.get('search', '')
+        category = req.query_params.get('category', '')
+        maxPrice = int(req.query_params.get('maxPrice', 9999999)) if req.query_params.get('maxPrice', 9999999).strip() else 9999999
+        minPrice = int(req.query_params.get('minPrice', 0)) if req.query_params.get('minPrice', 0).strip() else 0
+        
         if req.query_params.get('page') is not None:
+            if category != '':
+                queryset = self.get_queryset().filter(name__icontains=search).filter(category = category)
+            else:
+                queryset = self.get_queryset().filter(name__icontains=search).filter(price__gte = minPrice).filter(price__lte = maxPrice)
             page = self.paginate_queryset(queryset)
             if page is not None:
                 serializer = self.get_serializer(page, many=True)
@@ -45,7 +54,6 @@ class ProductListCreate(generics.ListCreateAPIView):
     # Create
     @transaction.atomic
     def post(self, request):
-        # try:
         sid = transaction.savepoint()
         data = request.data.copy()
         data['name'] = str.capitalize(data['name'])
@@ -94,11 +102,4 @@ class ProductListCreate(generics.ListCreateAPIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
-        # except:
-        transaction.savepoint_rollback(sid)
-        # return Response(
-        #     {
-        #         'status': 400,
-        #         'msg': 'Error creating product',
-        #     },
-        #     status=status.HTTP_400_BAD_REQUEST)
+

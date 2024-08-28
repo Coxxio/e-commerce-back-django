@@ -6,7 +6,7 @@ from rest_framework import status
 from .routes.routes import routes
 
 class TestSetup(APITestCase):
-    fixtures = ['tests/fixtures/UserAdmin.json']
+    fixtures = ['test/fixtures/UserAdmin.json']
     
     def setUp(self):
         # URLS User Module

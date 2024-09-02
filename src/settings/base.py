@@ -24,10 +24,16 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'https://ecommerce-frontend-delta-eight.vercel.app',
+    'https://ecommerce-git-pe-98-tjg-ca4812-tony-gonzalezs-projects-7bfa0813.vercel.app',
+    '*'
 ]
 
 CORS_ORIGIN_WHITELITS = [
     'http://localhost:3000',
+    'https://ecommerce-frontend-delta-eight.vercel.app',
+    'https://ecommerce-git-pe-98-tjg-ca4812-tony-gonzalezs-projects-7bfa0813.vercel.app',
+    '*'
 ]
 
 # Application definition

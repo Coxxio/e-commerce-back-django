@@ -28,8 +28,8 @@ class ProductListCreate(generics.ListCreateAPIView):
         #Obteniendo filtros
         search = req.query_params.get('search', '')
         category = req.query_params.get('category', '')
-        maxPrice = int(req.query_params.get('maxPrice', 9999999)) if req.query_params.get('maxPrice', 9999999).strip() else 9999999
-        minPrice = int(req.query_params.get('minPrice', 0)) if req.query_params.get('minPrice', 0).strip() else 0
+        maxPrice = int(req.query_params.get('maxPrice', 9999999))
+        minPrice = int(req.query_params.get('minPrice', 0))
         
         if req.query_params.get('page') is not None:
             if category != '':
@@ -41,7 +41,7 @@ class ProductListCreate(generics.ListCreateAPIView):
                 serializer = self.get_serializer(page, many=True)
                 data = self.get_paginated_response(serializer.data)
         else:
-            data = ProductSerializer(queryset, many=True)
+            data = ProductSerializer(self.get_queryset(), many=True)
         return Response(
             {
                 'msg': "Ok",

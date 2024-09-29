@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.core.exceptions import FieldError
 
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -28,20 +29,39 @@ class ProductListCreate(generics.ListCreateAPIView):
         #Obteniendo filtros
         search = req.query_params.get('search', '')
         category = req.query_params.get('category', '')
-        maxPrice = int(req.query_params.get('maxPrice', 9999999))
-        minPrice = int(req.query_params.get('minPrice', 0))
+        maxPrice = float(req.query_params.get('maxPrice', 0))
+        minPrice = float(req.query_params.get('minPrice', 0))
+        order_by = req.query_params.get('order_by', 'createdAt')
         
+        queryset = self.get_queryset()
+        
+        if category != '':
+            queryset = queryset.filter(category = category)
+        if search != '':
+            queryset = queryset.filter(name__icontains = search)
+        if maxPrice != 0:
+            queryset = queryset.filter(price__lte = maxPrice)
+        if minPrice != 0:
+            queryset = queryset.filter(price__gte = minPrice)
+        try:
+            queryset = queryset.order_by(order_by)
+        except FieldError as e:
+            return Response(
+                {
+                    'msg': "No existe el campo del order by",
+                    'errors': {
+                        "order_by": f'No existe {order_by}'
+                    },
+                    'statusCode': 400
+                },
+                status.HTTP_400_BAD_REQUEST
+            )
         if req.query_params.get('page') is not None:
-            if category != '':
-                queryset = self.get_queryset().filter(name__icontains=search).filter(category = category)
-            else:
-                queryset = self.get_queryset().filter(name__icontains=search).filter(price__gte = minPrice).filter(price__lte = maxPrice)
             page = self.paginate_queryset(queryset)
-            if page is not None:
-                serializer = self.get_serializer(page, many=True)
-                data = self.get_paginated_response(serializer.data)
+            serializer = self.get_serializer(page, many=True)
+            data = self.get_paginated_response(serializer.data)
         else:
-            data = ProductSerializer(self.get_queryset(), many=True)
+            data = ProductSerializer(queryset, many=True)
         return Response(
             {
                 'msg': "Ok",
